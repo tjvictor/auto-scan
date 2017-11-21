@@ -1,0 +1,113 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #f9f9f9;
+	font: normal 14px "MicroSoft YaHei", "SimHei";
+	color: #333;
+}
+
+#header, #nav .nav_main, #banner, #content,#content2, .footMain_main, #footer {
+	margin: 0 auto;
+	width: 1000px;
+	text-align: left;
+	position: relative;
+}
+
+/* header--------------------------------------------------------------------*/
+#headerbox {
+	width: 100%;
+	background: #1a87eb;
+}
+
+#header {
+	height: 125px;
+	overflow: hidden;
+	background: #1a87eb;
+}
+
+#header .logo {
+	float: left;
+	margin-top: 18px;
+	height: 90px;
+	line-height: 60px;
+	font-size: 28px;
+	padding-left: 100px;
+	display: block;
+	background: url(../img/logo.png) no-repeat left center
+}
+
+#header .logo {
+	color: #fff;
+}
+
+/* my self */
+.main {
+	width: 1000px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.leftPanel {
+	margin: 0 auto;
+	width: 420px;
+	height: 400px;
+	float: left;
+}
+
+.rightPanel {
+	width: 570px;
+	height: 400px;
+	float: right;
+}
+
+.progress {
+	-webkit-animation: progress 2s linear;
+	/* Safari 和 Chrome */
+}
+
+@-webkit-keyframes progress /* Safari 和 Chrome */ {
+	0% {
+		width: 0;
+	}
+
+	100% {
+		width: 100%;
+	}
+}
+
+.verifyInvoiceMove {
+	-webkit-animation: verifyInvoiceMove 2s linear 1s;
+	/* Safari 和 Chrome */
+}
+
+@-webkit-keyframes verifyInvoiceMove /* Safari 和 Chrome */ {
+	0% {
+		top: 0px;
+		left: 0px;
+	}
+
+	100% {
+		top: -200px;
+		left: 400px;
+	}
+}
+
+.warnInvoiceMove {
+	-webkit-animation: warnInvoiceMove 2s linear 1s;
+	/* Safari 和 Chrome */
+}
+
+@-webkit-keyframes warnInvoiceMove /* Safari 和 Chrome */ {
+	0% {
+		top: 0px;
+		left: 0px;
+	}
+
+	100% {
+		top: 200px;
+		left: 400px;
+	}
+}
