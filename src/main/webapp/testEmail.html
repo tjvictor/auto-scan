@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="res/js/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="res/js/common.js"></script>
+    <script>
+        function testEmail(){
+            var postValue = {
+                "codeList": 'asdfa,asdfasd,asdfadsa,asdfasdfa,',
+            };
+
+            callAjax('/invoiceService/sendEmail', '', '', '', 'POST', postValue, '');
+        }
+    </script>
+</head>
+<body>
+    <input onclick="testEmail()" type="button" value="test email">
+</body>
+</html>

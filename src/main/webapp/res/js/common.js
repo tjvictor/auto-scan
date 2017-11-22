@@ -40,7 +40,7 @@ function textOnchange() {
     $('#invoiceDate').val(data[5]);
     $('#invoiceAmount').val(data[4]);
 
-    callAjax('/invoiceService/getInvoiceByCode', '', 'getInvoiceByCodeCallback', '', '', 'code=' + $('#invoiceCode').val(), '');
+    callAjax('/invoiceService/getInvoiceByCode', '', 'getInvoiceByCodeCallback', '', '', 'code=' + $('#invoiceCode').val()+'&number='+$('#invoiceNumber').val(), '');
 
 }
 

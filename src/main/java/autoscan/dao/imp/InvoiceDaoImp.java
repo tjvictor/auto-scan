@@ -25,10 +25,10 @@ public class InvoiceDaoImp implements InvoiceDao{
     protected String dbConnectString;
 
     @Override
-    public Invoice getInvoiceByCode(String code) throws SQLException {
+    public Invoice getInvoiceByCode(String code, String number) throws SQLException {
         Invoice item = new Invoice();
 
-        String selectSql = String.format("SELECT InvoiceCode, InvoiceNumber, InvoiceDate, SalesName, SalesTaxNumber, Amount, Tax FROM Invoice where InvoiceCode = '%s'", code);
+        String selectSql = String.format("SELECT InvoiceCode, InvoiceNumber, InvoiceDate, SalesName, SalesTaxNumber, Amount, Tax FROM Invoice where InvoiceCode = '%s' and InvoiceNumber = '%s'", code, number);
         try (Connection connection = DriverManager.getConnection(dbConnectString)) {
             try (Statement stmt = connection.createStatement()) {
                 try (ResultSet rs = stmt.executeQuery(selectSql)) {

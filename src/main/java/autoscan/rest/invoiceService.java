@@ -26,10 +26,10 @@ public class invoiceService {
     private InvoiceDao invoiceDaoImp;
 
     @RequestMapping(value = "/getInvoiceByCode", method = RequestMethod.GET)
-    public ResponseEntity getInvoiceByCode(@RequestParam("code") String code) {
+    public ResponseEntity getInvoiceByCode(@RequestParam("code") String code, @RequestParam("number") String number) {
 
         try {
-            Invoice item = invoiceDaoImp.getInvoiceByCode(code);
+            Invoice item = invoiceDaoImp.getInvoiceByCode(code, number);
             if(StringUtils.isNotEmpty(item.getInvoiceCode()))
                 return new ResponseEntity("ok", "查询成功", item);
             else
