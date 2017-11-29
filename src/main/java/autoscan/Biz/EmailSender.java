@@ -1,4 +1,4 @@
-package autoscan.dao.imp;
+package autoscan.Biz;
 
 import autoscan.model.Email;
 

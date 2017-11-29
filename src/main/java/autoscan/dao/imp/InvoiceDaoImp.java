@@ -1,5 +1,6 @@
 package autoscan.dao.imp;
 
+import autoscan.Biz.EmailSender;
 import autoscan.dao.InvoiceDao;
 import autoscan.model.Email;
 import autoscan.model.Invoice;

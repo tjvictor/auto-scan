@@ -1,6 +1,6 @@
 package autoscan.config;
 
-import autoscan.dao.imp.EmailSender;
+import autoscan.Biz.EmailSender;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
