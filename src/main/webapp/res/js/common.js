@@ -33,15 +33,17 @@ function textOnchange() {
 
     //01,04,1200164320,02388138,224.27,20170430,72421672501935626208,3C4C,
     //01,04,3100162130,44557616,132.67,20170525,72421672501935626208,3C4C,
-    var data = $('#invoiceCode').val().split(',');
+    var dataLength = $('#invoiceCode').val().split(',').length;
+    if(dataLength == 9){
+        var data = $('#invoiceCode').val().split(',');
 
-    $('#invoiceCode').val(data[2]);
-    $('#invoiceNumber').val(data[3]);
-    $('#invoiceDate').val(data[5]);
-    $('#invoiceAmount').val(data[4]);
+        $('#invoiceCode').val(data[2]);
+        $('#invoiceNumber').val(data[3]);
+        $('#invoiceDate').val(data[5]);
+        $('#invoiceAmount').val(data[4]);
 
-    callAjax('/invoiceService/getInvoiceByCode', '', 'getInvoiceByCodeCallback', '', '', 'code=' + $('#invoiceCode').val()+'&number='+$('#invoiceNumber').val(), '');
-
+        callAjax('/invoiceService/getInvoiceByCode', '', 'getInvoiceByCodeCallback', '', '', 'code=' + $('#invoiceCode').val()+'&number='+$('#invoiceNumber').val(), '');
+    }
 }
 
 function getInvoiceByCodeCallback(data) {

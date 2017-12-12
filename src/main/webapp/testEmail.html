@@ -24,13 +24,23 @@
             }
         }
 
+        function strSplit(){
+            var str = $('#ggggg').val().split(",").length;
+            var str1 = $('#ggggg').val().split(",", -1).length;
 
+            alert(str);
+            alert(str1);
+        }
     </script>
     <style>
         ul{
             list-style:none
         }
 
+        .top:hover .second{
+            display:inline-block;
+            background-color:black;
+        }
     </style>
 </head>
 <body>
@@ -45,23 +55,50 @@
 
 <div style="width:1000px; margin:0 auto">
     <ul style="width:100%;">
-        <li style="float: left;width:20%;background-color:grey;color:white;">
+        <li class="top" style="float: left;width:20%;background-color:grey;color:white;">
             <div>level one first</div>
-            <ul>
-                <li style="display:block">1</li>
-                <li>2</li>
+            <ul class="second" style="">
+                <li style="float: left;background-color:#1E90FF;color:white;">1</li>
+                <li style="float: left;background-color:#1E90FF;color:white;">2</li>
             </ul>
         </li>
-        <li style="float: left;width:20%;background-color:grey;color:white;">
+        <li class="top" style="float: left;width:20%;background-color:grey;color:white;">
             <div>level one second</div>
-            <ul>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
+            <ul class="second" style="">
+                <li style="float: left;background-color:#1E90FF;color:white;">3</li>
+                <li style="float: left;background-color:#1E90FF;color:white;">4</li>
+                <li style="float: left;background-color:#1E90FF;color:white;">5</li>
             </ul>
         </li>
 
     </ul>
 </div>
+
+<div>
+    <input id="ggggg" value="gggggg" onchange="strSplit()">
+</div>
+
+
+<a class="aaa" href="#">hover
+    <div class="div2" style="">
+
+    </div>
+</a>
+<style>
+  .aaa:hover .div2{
+    display: block;
+    animation: 0.5s div2 ease-in forwards;
+
+  }
+  @keyframes div2{
+    0%{height: 10px; }
+    100%{height: 200px; }
+  }
+  .div2{
+    width: 200px;
+    background-color: red;
+
+  }
+</style>
 </body>
 </html>
