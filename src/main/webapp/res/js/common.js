@@ -127,3 +127,100 @@ function sendEmailCallBack(data){
         $('#verifiedInvoiceContent').html('');
     }
 }
+
+function login() {
+    var sid = $('#bankIdTxt').val();
+    var password = $('#passwordTxt').val();
+    var role = $('#roleSelect').val();
+    if (sid == '' || password == '')
+        $('#errorShow').text('Bank Id or Password can\'t be empty!');
+    else{
+        var parameter = 'bankId='+sid+'&password='+password+'&role='+role;
+        callAjax('/invoiceService/login', '', 'loginCallback', '', '', parameter, '');
+    }
+}
+
+function loginCallback(data){
+    if (data.status == "ok") {
+        var user = {
+            "id" : data.callBackData.id,
+            "bankId" : data.callBackData.bankId,
+            "roleId" : data.callBackData.roleId,
+            "tel" : data.callBackData.telNumber,
+        }
+        Cookies.set("user", user, { expires: 1 });
+        window.location = '/index.html';
+    }else{
+        $('#errorShow').text(data.prompt);
+    }
+
+}
+
+function searchPOTicket(){
+    var dataLength = $('#barCodeTxt').val().length;
+    if(dataLength == 10){
+        var data = $('#barCodeTxt').val();
+        callAjax('/invoiceService/getPOTicketByBarCode', '', 'getPOTicketByBarCodeCallback', '', '', 'barCode=' + data, '');
+    }
+}
+
+function getPOTicketByBarCodeCallback(data){
+    $('#reminderSpan').text(data.prompt);
+    if (data.status == "ok") {
+        $('#poTicketDetailDiv').css('display','block');
+        $('#poTicketProgressDiv').css('display','block');
+
+        var item = data.callBackData;
+        $('#vendorIdTxt').val(item.vendorId);
+        $('#claimCurrencyTxt').val(item.claimCurrency);
+        $('#claimAmountTxt').val(item.claimAmount);
+        $('#buTxt').val(item.bu);
+        $('#poNumberTxt').val(item.poNumber);
+        $('#poReceivedAmountTxt').val(item.poReceivedAmount);
+        $('#commentsTxt').val(item.comment);
+        $('#staffIdTxt').val(item.staffId);
+        $('#telNumberTxt').val(item.telNumber);
+
+        $('#submitDate').text('');
+        $('#verifiedDate').text('');
+        $('#completedDate').text('');
+        $('#submitDate').css('display','none');
+        $('#verifiedDate').css('display','none');
+        $('#completedDate').css('display','none');
+        $('#submitDate').next().css('display','none');
+        $('#verifiedDate').next().css('display','none');
+        $('#completedDate').next().css('display','none');
+
+        $('#draftImg').css('display','none');
+        $('#inProgressImg').css('display','none');
+        $('#completedImg').css('display','none');
+
+        if(item.status == 0){
+            $('#submitDate').next().css('display','inline');
+            $('#draftImg').css('display','block');
+        }else if(item.status == 1){
+            $('#submitDate').text(item.submitDate);
+            $('#submitDate').css('display','block');
+            $('#verifiedDate').next().css('display','inline');
+            $('#inProgressImg').css('display','block');
+        }else if(item.status == 2){
+            $('#submitDate').text(item.submitDate);
+            $('#verifiedDate').text(item.verifiedDate);
+            $('#submitDate').css('display','block');
+            $('#verifiedDate').css('display','block');
+            $('#completedDate').next().css('display','inline');
+            $('#inProgressImg').css('display','block');
+        }else if(item.status == 3){
+            $('#submitDate').text(item.submitDate);
+            $('#verifiedDate').text(item.verifiedDate);
+            $('#completedDate').text(item.completedDate);
+            $('#submitDate').css('display','block');
+            $('#verifiedDate').css('display','block');
+            $('#completedDate').css('display','block');
+            $('#completedImg').css('display','block');
+        }
+    }else{
+        $('#poTicketDetailDiv').css('display','none');
+        $('#poTicketProgressDiv').css('display','none');
+    }
+}

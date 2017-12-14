@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Raise PO Ticket</title>
+    <title>Search Ticket</title>
     <style>
         * {
             margin: 0;
@@ -13,15 +13,68 @@
         .right { float: right; }
         .clear { clear: both; }
     </style>
+    <script type="text/javascript" src="../res/js/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="../res/js/common.js"></script>
+    <script type="text/javascript" src="../res/js/js.cookie.js"></script>
 </head>
 <body style="width:1000px; margin:100px auto;background-color:#F2EFE6;">
+<div>
+    <span style="font-size:16px;">Bar Code: </span>
+    <input type="text" id="barCodeTxt" style="width:100px;border-radius:5px;margin-left:20px;" oninput="searchPOTicket();">
+</div>
+<div style="width:100%;height:auto;border-bottom: 2px solid black;margin:10px 0 10px 0;"></div>
 
 <div>
-    <input type="button" value="SUBMIT" id="submitBtn" style="width:80px;border-radius:10px;cursor:pointer;">
+    <span id="reminderSpan" style="font-size:16px;font-weight:bold;color:#1DB0B8;"></span>
 </div>
 
-<div style="width:100%;height:auto;border-bottom: 2px solid black;margin-top:10px;"></div>
-<div style="width:100%;height:auto;background-color:white;margin-top:20px;padding:20px;width:1000px;">
+<div id="poTicketProgressDiv" style="display:none;" >
+    <div style="width:100%;height:52px;text-align:center;background-color:white;">
+        <div class="left" style="width:33.33%;vertical-align:bottom;height:52px;line-height:52px;">
+            <span id="submitDate" style="font-size:16px;font-weight:bold;color:#2E68AA;"></span>
+            <img src="../res/img/position.png" style="width:48px;height:48px;">
+        </div>
+        <div class="left" style="width:33.33%;height:52px;line-height:52px;">
+            <span id="verifiedDate" style="font-size:16px;font-weight:bold;color:#2E68AA;"></span>
+            <img src="../res/img/position.png" style="width:48px;height:48px;">
+        </div>
+        <div class="left" style="width:33.33%;height:52px;line-height:52px;">
+            <span id="completedDate" style="font-size:16px;font-weight:bold;color:#2E68AA;"></span>
+            <img src="../res/img/position.png" style="width:48px;height:48px;">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div style="width:100%;height:24px;text-align:center;background-color:white;">
+
+        <div class="left" style="width:33.33%;height:24px;line-height:24px;position:relative;">
+            <div style="position:absolute;left:50%;width:50%;background: url(../res/img/split_dot.png) repeat-x 0 11px;height:24px;"></div>
+            <img src="../res/img/grey_circle.png" style="width:24px;height:24px;">
+        </div>
+        <div class="left" style="width:33.33%;height:24px;line-height:24px;background: url(../res/img/split_dot.png) repeat-x 0 11px;height:24px;">
+            <img src="../res/img/green_circle.png" style="width:24px;height:24px;">
+        </div>
+        <div class="left" style="width:33.33%;height:24px;line-height:24px;position:relative;">
+            <div style="position:absolute;width:50%;background: url(../res/img/split_dot.png) repeat-x 0 11px;height:24px;"></div>
+            <img src="../res/img/grey_circle.png" style="width:24px;height:24px;">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div style="width:100%;height:100px;text-align:center;height:100px;background-color:white;">
+        <div class="left" style="width:33.33%;">
+            <img src="../res/img/ticket.png" style="width:96px;height:96px;">
+        </div>
+        <div class="left" style="width:33.33%;">
+            <img src="../res/img/ao.png" style="width:96px;height:96px;">
+        </div>
+        <div class="left" style="width:33.33%;">
+            <img src="../res/img/indexor.png" style="width:96px;height:96px;">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div style="width:100%;height:auto;border-bottom: 2px solid black;margin-top:10px;"></div>
+</div>
+
+<div id="poTicketDetailDiv"  style="width:100%;height:auto;background-color:white;margin-top:20px;padding:20px;width:1000px;display:none;">
     <img src="../res/img/ticket_title.png" style="max-width:100%">
     <div>
         <div class="left" style="width:50%"><span style="font-size:26px;font-weight:bold;">Expense Reimbursement Form-PO</span></div>
@@ -32,35 +85,41 @@
     <div class="clear"></div>
     <div style="margin-top: 25px;line-height:30px;">
         <div class="left"><span style="font-size:14px;font-weight:bold;">Vendor ID</span></div>
-        <div class="left"><input type="text" id="vendorIdTxt" style="width:100px;margin-left:50px;"></div>
+        <div class="left"><input type="text" id="vendorIdTxt" style="width:100px;margin-left:50px;" readonly></div>
         <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Claim Currency</span></div>
-        <div class="left"><input type="text"id="claimCurrencyTxt" style="width:50px;margin-left:50px;"></div>
+        <div class="left"><input type="text"id="claimCurrencyTxt" style="width:50px;margin-left:50px;" readonly></div>
         <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Claim Amount</span></div>
-        <div class="left"><input type="text"id="claimAmountTxt" style="width:100px;margin-left:50px;"></div>
+        <div class="left"><input type="text"id="claimAmountTxt" style="width:100px;margin-left:50px;" readonly></div>
         <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">BU</span></div>
-        <div class="left"><input type="text"id="buTxt" style="width:75px;margin-left:50px;"></div>
+        <div class="left"><input type="text"id="buTxt" style="width:75px;margin-left:50px;" readonly></div>
     </div>
     <div class="clear"></div>
+
     <div style="margin-top: 25px;line-height:30px;">
         <div class="left"><span style="font-size:14px;font-weight:bold;">PO Number</span></div>
-        <div class="left"><input type="text"id="poNumberTxt" style="width:100px;margin-left:40px;"></div>
+        <div class="left"><input type="text"id="poNumberTxt" style="width:100px;margin-left:40px;" readonly></div>
         <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">PO Received Amount</span></div>
-        <div class="left"><input type="text"id="poReceivedAmountTxt" style="width:50px;margin-left:20px;"></div>
+        <div class="left"><input type="text"id="poReceivedAmountTxt" style="width:50px;margin-left:20px;" readonly></div>
         <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Comments*</span></div>
-        <div class="left"><input type="text"id="commentsTxt" style="width:300px;margin-left:65px;"></div>
+        <div class="left"><input type="text"id="commentsTxt" style="width:300px;margin-left:65px;" readonly></div>
     </div>
     <div class="clear"></div>
     <div style="margin-top: 25px;line-height:30px;">
         <div class="left" style="width:60%">
             <div><span style="font-size:14px;font-weight:bold;">Contact Information </span></div>
             <div class="left"><span style="font-size:14px;font-weight:bold;">Staff ID</span></div>
-            <div class="left"><input type="text"id="staffIdTxt" style="width:100px;margin-left:65px;"></div>
+            <div class="left"><input type="text" id="staffIdTxt" style="width:100px;margin-left:65px;" readonly></div>
             <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Tel Number</span></div>
-            <div class="left"><input type="text"id="telNumberTxt" style="width:100px;margin-left:40px;"></div>
+            <div class="left"><input type="text" id="telNumberTxt" style="width:100px;margin-left:40px;" readonly></div>
         </div>
-        <div class="left" style="width:40%">
+        <div class="left" style="width:40%;position:relative">
             <p style="font-size:12px;font-weight:bold;">*if PO received amount not match invoice/claim amount, </p>
             <p style="font-size:12px;font-weight:bold;">please clarify which amount should be the payment amount</p>
+            <div style="position:absolute;top:0;left:0">
+                <img id="draftImg" src="../res/img/draft.png" style="width:300px;height:182px;display:none;">
+                <img id="inProgressImg" src="../res/img/inprogress.png" style="width:300px;height:245px;display:none;">
+                <img id="completedImg" src="../res/img/completed.png" style="width:300px;height:197px;display:none;">
+            </div>
         </div>
     </div>
     <div class="clear"></div>
@@ -81,20 +140,6 @@
             Note: You can find the "Q&A for Fapiao Checking notices" on iconnect (China > Other Functions > AP related > Q&A for Fapiao Checking 发票查验小贴士)
             注：你可以在公司内网上找到 发票查验小贴士(China > Other Functions > AP related > Q&A for Fapiao Checking 发票查验小贴士)
         </p>
-    </div>
-    <div style="margin-top:10px;">
-        <div class="right" style="width:200px; border: 1px solid black;height:30px;margin-left:30px;">
-
-        </div>
-        <div class="right" >
-            <p style="font-size:14px;">申请人（请签字）：</p>
-            <p style="font-size:14px;">Claimant (please sign here)</p>
-        </div>
-
-    </div>
-    <div class="clear"></div>
-    <div style="width:100%;height:auto;border-bottom: 2px solid black;">
-        <span style="font-size:14px;font-weight:bold;">Please stick Fapiao/invoice in below area:</span>
     </div>
 </div>
 </body>

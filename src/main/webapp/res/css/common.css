@@ -1,13 +1,14 @@
 * {
 	margin: 0;
 	padding: 0;
+	box-sizing:border-box;
 }
 
 body {
 	background-color: #F2EFE6;
 	font: normal 14px "MicroSoft YaHei", "SimHei";
 	color: #333;
-	width:1040px;
+	width:1000px;
 }
 
 .left { float: left; }

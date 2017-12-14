@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing:border-box;
+        }
+        .left { float: left; }
+        .right { float: right; }
+        .clear { clear: both; }
+    </style>
+    <script type="text/javascript" src="res/js/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="res/js/common.js"></script>
+    <script type="text/javascript" src="res/js/js.cookie.js"></script>
+</head>
+<body>
+    <div style="position:fixed;left:0;top:0;background:url('res/img/login-bg.jpg') no-repeat ;background-size:100% 100%;width:100%;height:100%;"></div>
+
+    <div style="position:fixed;left:60%;top:42%;"><span id="errorShow" style="font-size:16px;color:red"></span></div>
+
+    <div style="position:fixed;left:60%;top:52%;width:auto;height:auto;">
+        <div>
+            <span style="font-size:20px;font-weight:bold;color:#E5721E">Bank Id:</span>
+            <input id="bankIdTxt" type="text" placeholder="for demo:1464202" style="margin-left:30px; width:150px;border-radius:5px;">
+        </div>
+        <div style="margin-top:30px;">
+            <span style="font-size:20px;font-weight:bold;color:#E5721E">Password:</span>
+            <input id="passwordTxt" type="password" placeholder="for demo:123456" style="margin-left:17px; width:150px;border-radius:5px;">
+        </div>
+        <div style="margin-top:30px;">
+            <span style="font-size:20px;font-weight:bold;color:#E5721E">Role:</span>
+            <select id="roleSelect" style="margin-left:60px; width:150px;border-radius:5px;">
+                <option selected value="0">REQUESTER</option>
+                <option value="1">AO</option>
+            </select>
+        </div>
+        <div class="right" style="margin-top:30px;">
+            <input id="loginBtn" type="button" value="LOGIN" style="width:100px;border-radius:8px;cursor:pointer;background-color:#0B6E48;color:#17276F" onclick="login()">
+        </div>
+    </div>
+</body>
+</html>

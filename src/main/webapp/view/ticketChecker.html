@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Verification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing:border-box;
+        }
+
+        .progress {
+            -webkit-animation: progress 2s linear;
+            /* Safari 和 Chrome */
+        }
+
+        @-webkit-keyframes progress /* Safari 和 Chrome */ {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .verifyInvoiceMove {
+            -webkit-animation: verifyInvoiceMove 2s linear 1s;
+            /* Safari 和 Chrome */
+        }
+
+        @-webkit-keyframes verifyInvoiceMove /* Safari 和 Chrome */ {
+            0% {
+                top: 0px;
+                left: 0px;
+            }
+
+            100% {
+                top: 100px;
+                left: -300px;
+            }
+        }
+
+        .warnInvoiceMove {
+            -webkit-animation: warnInvoiceMove 2s linear 1s;
+            /* Safari 和 Chrome */
+        }
+
+        @-webkit-keyframes warnInvoiceMove /* Safari 和 Chrome */ {
+            0% {
+                top: 0px;
+                left: 0px;
+            }
+
+            100% {
+                top: 100px;
+                left: 100px;
+            }
+        }
+        .left { float: left; }
+        .right { float: right; }
+        .clear { clear: both; }
+    </style>
+    <script type="text/javascript" src="../res/js/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="../res/js/common.js"></script>
+    <script type="text/javascript" src="../res/js/js.cookie.js"></script>
+</head>
+<body style="width:1000px; margin:100px auto;background-color:#F2EFE6;">
+<div style="height:25px;line-height:25px;">
+    <span style="font-size:16px;">Bar Code: </span>
+    <input type="text" id="barCodeTxt" style="width:150px;border-radius:5px;margin-left:20px;height:25px;line-height:25px;border: 1px solid #ccc;" oninput="searchPOTicket();">
+
+    <input type="button" value="Verify" id="verifyBtn" style="margin-left:50px;" >
+
+    <input type="button" value="Reject" id="rejectBtn" style="margin-left:30px;" onclick="">
+    <span style="font-size:16px;">Reject Reason*: </span>
+    <input type="text" id="rejectTxt" style="width:150px;border-radius:5px;height:25px;line-height:25px;border: 1px solid #ccc;">
+
+</div>
+<div style="width:100%;height:auto;border-bottom: 2px solid black;margin:10px 0 10px 0;"></div>
+
+<div>
+    <span id="reminderSpan" style="font-size:16px;font-weight:bold;color:#1DB0B8;"></span>
+</div>
+
+<div id="poTicketDetailDiv"  style="width:100%;height:auto;background-color:white;padding:10px;">
+    <div>
+        <div class="left" style="width:50%"><span style="font-size:26px;font-weight:bold;">Expense Reimbursement Form-PO</span></div>
+        <div class="left" style="width:50%">
+            <img id="codeBarImg" src="" style="width:100%">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div style="line-height:20px;">
+        <div class="left"><span style="font-size:14px;font-weight:bold;">Vendor ID</span></div>
+        <div class="left"><input type="text" id="vendorIdTxt" style="width:100px;margin-left:50px;" readonly></div>
+        <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Claim Currency</span></div>
+        <div class="left"><input type="text"id="claimCurrencyTxt" style="width:50px;margin-left:50px;" readonly></div>
+        <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Claim Amount</span></div>
+        <div class="left"><input type="text"id="claimAmountTxt" style="width:100px;margin-left:50px;" readonly></div>
+        <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">BU</span></div>
+        <div class="left"><input type="text"id="buTxt" style="width:75px;margin-left:50px;" readonly></div>
+    </div>
+    <div class="clear"></div>
+
+    <div style="line-height:20px;">
+        <div class="left"><span style="font-size:14px;font-weight:bold;">PO Number</span></div>
+        <div class="left"><input type="text"id="poNumberTxt" style="width:100px;margin-left:40px;" readonly></div>
+        <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">PO Received Amount</span></div>
+        <div class="left"><input type="text"id="poReceivedAmountTxt" style="width:50px;margin-left:18px;" readonly></div>
+        <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Comments*</span></div>
+        <div class="left"><input type="text"id="commentsTxt" style="width:300px;margin-left:68px;" readonly></div>
+    </div>
+    <div class="clear"></div>
+    <div style="line-height:20px;">
+        <div class="left" style="width:60%">
+            <div><span style="font-size:14px;font-weight:bold;">Contact Information </span></div>
+            <div class="left"><span style="font-size:14px;font-weight:bold;">Staff ID</span></div>
+            <div class="left"><input type="text" id="staffIdTxt" style="width:100px;margin-left:65px;" readonly></div>
+            <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Tel Number</span></div>
+            <div class="left"><input type="text" id="telNumberTxt" style="width:100px;margin-left:40px;" readonly></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div style="width:100%;height:auto;border-bottom: 2px solid black;margin:10px 0 10px 0;"></div>
+
+<div style="width:100%">
+    <div class="left" style="width:33.33%">
+        <span style="color:red">*发票代码:</span>
+        <input id="invoiceCode" type="text" style="-webkit-appearance: textfield;-webkit-rtl-ordering: logical;;width:200px;border: 1px solid #ccc; border-radius:5px;height:25px;line-height:25px;font-size:14px;color:#555" oninput="textOnchange()"></td>
+    </div>
+    <div class="left" style="width:33.33%">
+        <span style="color:red">*发票号码:</span>
+        <input id="invoiceNumber" type="text" style="width:200px;border: 1px solid #ccc; border-radius:5px;height:25px;line-height:25px;font-size:14px;color:#555">
+    </div>
+    <div class="left" style="width:33.33%">
+        <div style="height:20px;border-radius:10px;background-color:#ebebeb;border-left:1px solid transparent;border-right:1px solid transparent">
+            <div id="progress"
+                 style="width:0px;display:none;height:20px;border-radius:10px;background-color:green;border:1px solid;background-image:url('res/img/progress.png')"></div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<div style="width:100%">
+    <div class="left" style="width:33.33%">
+        <span style="color:red">*开票日期:</span>
+        <input id="invoiceDate" type="text" style="width:200px;border: 1px solid #ccc; border-radius:5px;height:25px;line-height:25px;font-size:14px;color:#555">
+    </div>
+    <div class="left" style="width:33.33%">
+        <span style="color:red">*开具金额:</span>
+        <input id="invoiceAmount" type="text" style="width:200px;border: 1px solid #ccc; border-radius:5px;height:25px;line-height:25px;font-size:14px;color:#555">
+    </div>
+    <div class="left" style="width:33.33%">
+        <div id="verifyDiv" style="position:relative; color:green;display:none;">
+            <img src="../res/img/ok.png">Verified
+        </div>
+        <div id="warnDiv" style="position:relative; color:green;display:none;">
+            <img src="../res/img/warn.png">Failed
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<div style="width:100%">
+    <div class="left" style="width:50%">
+        <div style="width:100%;height:350px;padding:10px 10px 0 0;">
+            <div class="title" style="width:100%;height:20px;background-color:blue;color:white">已审核票据</div>
+            <div class="content" style="width:100%;overflow:auto;height:300px;background-color:white;">
+                <div id="verifiedInvoiceTitle" style="width:100%;background-color: #f9f9f9;color:black;font-size:12px;border-bottom:2px solid white;">
+                    <div style="float:left;width:15%;">发票代码</div>
+                    <div style="float:left;width:12%;">发票号码</div>
+                    <div style="float:left;width:13%;">开票日期</div>
+                    <div style="float:left;width:10%;">金额</div>
+                    <div style="float:left;width:10%;">税额</div>
+                    <div style="float:left;width:20%;">销方名称</div>
+                    <div style="float:left;width:20%;">销方税号</div>
+                    <div style="clear:both;"></div>
+                    <input id="verifiedInvoiceList" type="hidden">
+                </div>
+                <div id="verifiedInvoiceContent">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="left" style="width:50%">
+        <div style="width:100%;height:220px;padding:10px 0 0 10px;">
+            <div class="title" style="width:100%;height:20px;background-color:blue;color:white">未审核票据</div>
+            <div class="content" style="width:100%;overflow:auto;height:200px;background-color:white;">
+                <div id="warnedInvoiceTitle" style="width:100%;background-color: #f9f9f9;color:black;font-size:12px;border-bottom:2px solid white;">
+                    <div style="float:left;width:15%;">发票代码</div>
+                    <div style="float:left;width:12%;">发票号码</div>
+                    <div style="float:left;width:13%;">开票日期</div>
+                    <div style="float:left;width:10%;">金额</div>
+                    <div style="float:left;width:10%;">税额</div>
+                    <div style="float:left;width:20%;">销方名称</div>
+                    <div style="float:left;width:20%;">销方税号</div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div id="warnedInvoiceContent">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+
+<!--<div class="width:100%">
+    <div class="leftPanel">
+        <table>
+            <tr style="display:table-row">
+                <td style="padding:10px;font-size:16px;display:table-cell"><span style="color:red">*发票代码:</span></td>
+                <td style="padding:10px;display:table-cell">
+                    <input id="invoiceCode" type="text" style="-webkit-appearance: textfield;-webkit-rtl-ordering: logical;;width:200px;border: 1px solid #ccc; border-radius:5px;height:25px;line-height:25px;font-size:14px;color:#555" oninput="textOnchange()"></td>
+            </tr>
+            <tr style="display:table-row">
+                <td style="padding:10px;font-size:16px;display:table-cell"><span style="color:red">*发票号码:</span></td>
+                <td style="padding:10px;display:table-cell">
+                    <input id="invoiceNumber" type="text" style="width:200px;border: 1px solid #ccc; border-radius:5px;height:25px;line-height:25px;font-size:14px;color:#555">
+                </td>
+            </tr>
+            <tr style="display:table-row">
+                <td style="padding:10px;font-size:16px;display:table-cell"><span style="color:red">*开票日期:</span></td>
+                <td style="padding:10px;display:table-cell">
+                    <input id="invoiceDate" type="text" style="width:200px;border: 1px solid #ccc; border-radius:5px;height:25px;line-height:25px;font-size:14px;color:#555">
+                </td>
+            </tr>
+            <tr style="display:table-row">
+                <td style="padding:10px;font-size:16px;display:table-cell"><span style="color:red">*开具金额:</span></td>
+                <td style="padding:10px;display:table-cell">
+                    <input id="invoiceAmount" type="text" style="width:200px;border: 1px solid #ccc; border-radius:5px;height:25px;line-height:25px;font-size:14px;color:#555">
+                </td>
+            </tr>
+            <tr style="display:table-row">
+                <td colspan="2" style="padding:10px;font-size:16px;display:table-cell">
+                    <div style="height:20px;border-radius:10px;background-color:#ebebeb;border-left:1px solid transparent;border-right:1px solid transparent">
+                        <div id="progress"
+                             style="width:0px;display:none;height:20px;border-radius:10px;background-color:green;border:1px solid;background-image:url('res/img/progress.png')"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding:10px;font-size:12px;display:table-cell;float:right;">
+                    <div id="verifyDiv" style="position:relative; color:green;display:none;">
+                        <img src="res/img/ok.png">Verified
+                    </div>
+                    <div id="warnDiv" style="position:relative; color:green;display:none;">
+                        <img src="res/img/warn.png">Failed
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="rightPanel">
+        <div style="width:100%;height:350px;">
+            <div class="title" style="width:100%;height:20px;background-color:blue;color:white">已审核票据</div>
+            <div class="content" style="width:100%;overflow:auto;height:300px;background-color:white;">
+                <div id="verifiedInvoiceTitle" style="width:100%;background-color: #f9f9f9;color:black;font-size:12px;border-bottom:2px solid white;">
+                    <div style="float:left;width:15%;">发票代码</div>
+                    <div style="float:left;width:12%;">发票号码</div>
+                    <div style="float:left;width:13%;">开票日期</div>
+                    <div style="float:left;width:10%;">金额</div>
+                    <div style="float:left;width:10%;">税额</div>
+                    <div style="float:left;width:20%;">销方名称</div>
+                    <div style="float:left;width:20%;">销方税号</div>
+                    <div style="clear:both;"></div>
+                    <input id="verifiedInvoiceList" type="hidden">
+                </div>
+                <div id="verifiedInvoiceContent">
+                </div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <div style="width:100%;height:220px;margin-top:10px;">
+            <div class="title" style="width:100%;height:20px;background-color:blue;color:white">未审核票据</div>
+            <div class="content" style="width:100%;overflow:auto;height:200px;background-color:white;">
+                <div id="warnedInvoiceTitle" style="width:100%;background-color: #f9f9f9;color:black;font-size:12px;border-bottom:2px solid white;">
+                    <div style="float:left;width:15%;">发票代码</div>
+                    <div style="float:left;width:12%;">发票号码</div>
+                    <div style="float:left;width:13%;">开票日期</div>
+                    <div style="float:left;width:10%;">金额</div>
+                    <div style="float:left;width:10%;">税额</div>
+                    <div style="float:left;width:20%;">销方名称</div>
+                    <div style="float:left;width:20%;">销方税号</div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div id="warnedInvoiceContent">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+</body>
+</html>
