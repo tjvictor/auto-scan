@@ -78,4 +78,15 @@ public class TicketDaoImp implements TicketDao {
 
         return item;
     }
+
+    @Override
+    public void verifyPOTicket(String id) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(dbConnectString)){
+            String insertSql = "update POTicket set Status=2 where Id=?";
+            try(PreparedStatement ps = connection.prepareStatement(insertSql)) {
+                ps.setString(1, id);
+                ps.executeUpdate();
+            }
+        }
+    }
 }

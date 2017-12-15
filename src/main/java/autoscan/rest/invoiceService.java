@@ -6,6 +6,7 @@ import autoscan.dao.StaffDao;
 import autoscan.dao.TicketDao;
 import autoscan.model.BarCode;
 import autoscan.model.Invoice;
+import autoscan.model.InvoicePackage;
 import autoscan.model.PoTicket;
 import autoscan.model.ResponseEntity;
 import autoscan.model.Staff;
@@ -25,6 +26,7 @@ import javax.ws.rs.FormParam;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -60,6 +62,68 @@ public class invoiceService {
             else
                 return new ResponseEntity("warn", "SEARCH FAILED", item);
         } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            return new ResponseEntity("error", "SYSTEM ERROR, PLEASE CONTACT ADMINISTRATOR");
+        }
+    }
+
+    @RequestMapping(value = "/getInvoiceListByStatus", method = RequestMethod.GET)
+    public ResponseEntity getInvoiceListByStatus(@RequestParam("status") String status) {
+
+        try {
+            List<Invoice> items = invoiceDaoImp.getInvoiceListByStatus(status);
+            return new ResponseEntity("ok", "SEARCH SUCCESSFULLY", items);
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            return new ResponseEntity("error", "SYSTEM ERROR, PLEASE CONTACT ADMINISTRATOR");
+        }
+    }
+
+    @RequestMapping(value = "/getInvoicePackage", method = RequestMethod.GET)
+    public ResponseEntity getInvoicePackage() {
+
+        try {
+            List<InvoicePackage> items = invoiceDaoImp.getInvoicePackage();
+            return new ResponseEntity("ok", "SEARCH SUCCESSFULLY", items);
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            return new ResponseEntity("error", "SYSTEM ERROR, PLEASE CONTACT ADMINISTRATOR");
+        }
+    }
+
+    @RequestMapping(value = "/getInvoiceByPackageId", method = RequestMethod.GET)
+    public ResponseEntity getInvoiceByPackageId(@RequestParam("packageId") String packageId) {
+
+        try {
+            List<Invoice> items = invoiceDaoImp.getInvoiceByPackageId(packageId);
+            return new ResponseEntity("ok", "SEARCH SUCCESSFULLY", items);
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            return new ResponseEntity("error", "SYSTEM ERROR, PLEASE CONTACT ADMINISTRATOR");
+        }
+    }
+
+    @RequestMapping(value = "/packageVerifiedInvoice", method = RequestMethod.POST)
+    public ResponseEntity packageVerifiedInvoice(@FormParam("invoiceList") String invoiceList) {
+
+        try {
+            invoiceDaoImp.packageVerifiedInvoice(invoiceList);
+            return new ResponseEntity("ok", "PACKAGE SUCCESSFULLY, BUT EMAIL IS NOT SUPPORTED NOW.", "");
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return new ResponseEntity("error", "SYSTEM ERROR, PLEASE CONTACT ADMINISTRATOR");
+        }
+    }
+
+    @RequestMapping(value = "/verifyPOTicket", method = RequestMethod.POST)
+    public ResponseEntity verifyPOTicket(@FormParam("ticketId") String ticketId, @FormParam("invoiceList") String invoiceList) {
+
+        try {
+
+            ticketDao.verifyPOTicket(ticketId);
+            invoiceDaoImp.verifyInvoices(invoiceList);
+            return new ResponseEntity("ok", "VERIFY SUCCESSFULLY", "");
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new ResponseEntity("error", "SYSTEM ERROR, PLEASE CONTACT ADMINISTRATOR");
         }

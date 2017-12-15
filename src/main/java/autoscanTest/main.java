@@ -78,6 +78,7 @@ public class main {
         }*/
         String str = "01,04,1200164320,02388138,224.27,20170430,72421672501935626208,3C4C,";
         String str1 = "01,04,1200164320,02388138,224.27,20170430,,3C4C,";
+        System.out.println(str.split(",").length);
         System.out.println(str.split(",",0).length);
         System.out.println(str1.split(",", -1).length);
     }

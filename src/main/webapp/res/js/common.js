@@ -59,7 +59,7 @@ function getInvoiceByCodeCallback(data) {
             function() {
                 $(this).removeClass('verifyInvoiceMove');
                 $('#verifyDiv').css('display', 'none');
-                $('#verifiedInvoiceList').val($('#verifiedInvoiceList').val()+','+item.invoiceCode)
+                $('#verifiedInvoiceList').val($('#verifiedInvoiceList').val()+','+item.id)
                 addVerifiedInvoiceItem(item);
             });
         });
@@ -84,6 +84,7 @@ function getInvoiceByCodeCallback(data) {
 
 function addVerifiedInvoiceItem(data) {
     var item = '<div style="width:100%;background-color: #f9f9f9;color:black;font-size:12px;border-bottom:2px solid white;">';
+    item += '<input class="verifiedInvoice" type="text" style="display:none;" value="'+data.id+'">';
     item += '<div style="float:left;width:15%;">' + data.invoiceCode + '</div>';
     item += '<div style="float:left;width:12%;">' + data.invoiceNumber + '</div>';
     item += '<div style="float:left;width:13%;">' + data.invoiceDate + '</div>';
@@ -171,6 +172,7 @@ function getPOTicketByBarCodeCallback(data){
         $('#poTicketProgressDiv').css('display','block');
 
         var item = data.callBackData;
+        $('#ticketIdTxt').val(item.id);
         $('#vendorIdTxt').val(item.vendorId);
         $('#claimCurrencyTxt').val(item.claimCurrency);
         $('#claimAmountTxt').val(item.claimAmount);
@@ -223,4 +225,213 @@ function getPOTicketByBarCodeCallback(data){
         $('#poTicketDetailDiv').css('display','none');
         $('#poTicketProgressDiv').css('display','none');
     }
+}
+
+function verifyTicket(){
+    var ticketId = $('#ticketIdTxt').val();
+
+    if(ticketId==''){
+        showPop('PLEASE SEARCH TICKET FIRSTLY.');
+        return;
+    }
+
+    var invoiceList = $('#verifiedInvoiceList').val();
+
+    var postValue = {
+        "ticketId": ticketId,
+        "invoiceList": invoiceList,
+    };
+
+    callAjax('/invoiceService/verifyPOTicket', '', 'verifyPOTicketCallback', '', 'POST', postValue, '');
+}
+
+function verifyPOTicketCallback(data){
+    showPop(data.prompt);
+    if (data.status == "ok") {
+        $('#reminderSpan').text('');
+        $('#barCodeTxt').val('');
+        $('#ticketIdTxt').val('');
+        $('#vendorIdTxt').val('');
+        $('#claimCurrencyTxt').val('');
+        $('#claimAmountTxt').val('');
+        $('#buTxt').val('');
+        $('#poNumberTxt').val('');
+        $('#poReceivedAmountTxt').val('');
+        $('#commentsTxt').val('');
+        $('#staffIdTxt').val('');
+        $('#telNumberTxt').val('');
+        $('#invoiceCode').val('');
+        $('#invoiceNumber').val('');
+        $('#invoiceDate').val('');
+        $('#invoiceAmount').val('');
+        $('#verifiedInvoiceContent').html('');
+        $('#warnedInvoiceContent').html('');
+        $('#verifiedInvoiceList').val('');
+    }
+}
+
+function rejectTicket(){
+    var rejectReason = $('#rejectTxt').val();
+    if(rejectReason == ''){
+        showPop('PLEASE INPUT REJECTED REASON.');
+    }else{
+        showPop('SORRY, REJECTED FUNCTION IS NOT SUPPORTED IN DEMO.');
+    }
+}
+
+function showPop(reminder){
+    $('#popReminder').text(reminder);
+    $('#maskDiv').css('display','block');
+}
+
+function hidePop(){
+    $('#maskDiv').css('display','none');
+}
+
+function packageTabChange(item){
+    $(item).css('background-color','#FF5300');
+    $(item).css('color','#F7DED2');
+    $(item).siblings().css('background-color','');
+    $(item).siblings().css('color','');
+}
+
+function verifiedInvoiceTab(item){
+    packageTabChange(item);
+
+    $('#verifiedInvoiceDiv').css('display','block');
+    $('#nonVerifiedInvoiceDiv').css('display','none');
+    $('#historyPackageDiv').css('display','none');
+
+    callAjax('/invoiceService/getInvoiceListByStatus', '', 'getVerifiedInvoiceListCallback', '', '', 'status=1', '');
+}
+function getVerifiedInvoiceListCallback(data){
+    $('#verifiedInvoiceContent').html('');
+    $('#verifiedInvoiceList').val('');
+    if(data.status == "ok"){
+        for(var i = 0 ; i < data.callBackData.length ; i++){
+            var obj = data.callBackData[i];
+            var item = '<div style="width:100%;background-color: #f9f9f9;color:black;font-size:12px;border-bottom:2px solid white;">';
+            item += '<input class="verifiedInvoice" type="text" style="display:none;" value="'+obj.id+'">';
+            item += '<div style="float:left;width:10%;">' + obj.invoiceCode + '</div>';
+            item += '<div style="float:left;width:10%;">' + obj.invoiceNumber + '</div>';
+            item += '<div style="float:left;width:10%;">' + obj.invoiceDate + '</div>';
+            item += '<div style="float:left;width:8%;">' + obj.amount + '</div>';
+            item += '<div style="float:left;width:8%;">' + obj.tax + '</div>';
+            item += '<div style="float:left;width:27%;"><p style="text-overflow:ellipsis;width:100%;overflow:hidden;white-space:nowrap;">' + obj.salesName + '</p></div>';
+            item += '<div style="float:left;width:27%;"><p style="text-overflow:ellipsis;width:100%;overflow:hidden;white-space:nowrap;">' + obj.salesTaxNumber + '</p></div>';
+            item += '<div style="clear:both;"></div>';
+            item += '</div>';
+
+            $('#verifiedInvoiceContent').html($('#verifiedInvoiceContent').html() + item);
+            $('#verifiedInvoiceList').val($('#verifiedInvoiceList').val() + obj.id + ',');
+        }
+    }
+}
+
+
+function nonVerifiedInvoiceTab(item){
+    packageTabChange(item);
+
+    $('#verifiedInvoiceDiv').css('display','none');
+    $('#nonVerifiedInvoiceDiv').css('display','block');
+    $('#historyPackageDiv').css('display','none');
+
+    callAjax('/invoiceService/getInvoiceListByStatus', '', 'getNonVerifiedInvoiceListCallback', '', '', 'status=0', '');
+}
+function getNonVerifiedInvoiceListCallback(data){
+    $('#warnedInvoiceContent').html('');
+    $('#nonVerifiedInvoiceList').val('');
+    if(data.status == "ok"){
+        for(var i = 0 ; i < data.callBackData.length ; i++){
+            var obj = data.callBackData[i];
+            var item = '<div style="width:100%;background-color: #f9f9f9;color:black;font-size:12px;border-bottom:2px solid white;">';
+            item += '<input class="verifiedInvoice" type="text" style="display:none;" value="'+obj.id+'">';
+            item += '<div style="float:left;width:10%;">' + obj.invoiceCode + '</div>';
+            item += '<div style="float:left;width:10%;">' + obj.invoiceNumber + '</div>';
+            item += '<div style="float:left;width:10%;">' + obj.invoiceDate + '</div>';
+            item += '<div style="float:left;width:8%;">' + obj.amount + '</div>';
+            item += '<div style="float:left;width:8%;">' + obj.tax + '</div>';
+            item += '<div style="float:left;width:27%;"><p style="text-overflow:ellipsis;width:100%;overflow:hidden;white-space:nowrap;">' + obj.salesName + '</p></div>';
+            item += '<div style="float:left;width:27%;"><p style="text-overflow:ellipsis;width:100%;overflow:hidden;white-space:nowrap;">' + obj.salesTaxNumber + '</p></div>';
+            item += '<div style="clear:both;"></div>';
+            item += '</div>';
+
+            $('#warnedInvoiceContent').html($('#warnedInvoiceContent').html() + item);
+            $('#nonVerifiedInvoiceList').val($('#nonVerifiedInvoiceList').val() + obj.id + ',');
+        }
+    }
+}
+
+
+function historyPackageTab(item){
+    packageTabChange(item);
+
+    $('#verifiedInvoiceDiv').css('display','none');
+    $('#nonVerifiedInvoiceDiv').css('display','none');
+    $('#historyPackageDiv').css('display','block');
+
+    callAjax('/invoiceService/getInvoicePackage', '', 'getInvoicePackageCallback', '', '', '', '');
+}
+function getInvoicePackageCallback(data){
+    $('#packageContent').html('');
+    $('#packageDetailContent').html('');
+    if(data.status == "ok"){
+        for(var i = 0 ; i < data.callBackData.length ; i++){
+            var obj = data.callBackData[i];
+            var id = "'"+obj.id+"'";
+            var item = '<div style="width:100%;background-color: #f9f9f9;color:black;font-size:12px;border-bottom:2px solid white;cursor:pointer;" onclick="getInvoiceByPackageId('+id+')">';
+            item += '<div style="float:left;width:50%;">' + obj.name + '</div>';
+            item += '<div style="float:left;width:50%;">' + obj.date + '</div>';
+            item += '<div style="clear:both;"></div>';
+            item += '</div>';
+
+            $('#packageContent').html($('#packageContent').html() + item);
+        }
+    }
+}
+
+function getInvoiceByPackageId(packageId){
+    callAjax('/invoiceService/getInvoiceByPackageId', '', 'getInvoiceByPackageIdCallback', '', '', 'packageId='+packageId, '');
+}
+
+function getInvoiceByPackageIdCallback(data){
+    $('#packageDetailContent').html('');
+    if(data.status == "ok"){
+        for(var i = 0 ; i < data.callBackData.length ; i++){
+            var obj = data.callBackData[i];
+            var item = '<div style="width:100%;background-color: #f9f9f9;color:black;font-size:12px;border-bottom:2px solid white;">';
+            item += '<input class="verifiedInvoice" type="text" style="display:none;" value="'+obj.id+'">';
+            item += '<div style="float:left;width:10%;">' + obj.invoiceCode + '</div>';
+            item += '<div style="float:left;width:10%;">' + obj.invoiceNumber + '</div>';
+            item += '<div style="float:left;width:10%;">' + obj.invoiceDate + '</div>';
+            item += '<div style="float:left;width:8%;">' + obj.amount + '</div>';
+            item += '<div style="float:left;width:8%;">' + obj.tax + '</div>';
+            item += '<div style="float:left;width:27%;"><p style="text-overflow:ellipsis;width:100%;overflow:hidden;white-space:nowrap;">' + obj.salesName + '</p></div>';
+            item += '<div style="float:left;width:27%;"><p style="text-overflow:ellipsis;width:100%;overflow:hidden;white-space:nowrap;">' + obj.salesTaxNumber + '</p></div>';
+            item += '<div style="clear:both;"></div>';
+            item += '</div>';
+
+            $('#packageDetailContent').html($('#packageDetailContent').html() + item);
+        }
+    }
+}
+
+function packageVerifiedInvoice(data){
+
+    var postValue = {
+       "invoiceList" : $('#verifiedInvoiceList').val(),
+    };
+    callAjax('/invoiceService/packageVerifiedInvoice', '', 'packageVerifiedInvoiceCallback', '', 'POST', postValue, '');
+}
+
+function packageVerifiedInvoiceCallback(data){
+    showPop(data.prompt);
+    if(data.status == "ok"){
+        $('#verifiedInvoiceList').val('');
+        $('#verifiedInvoiceContent').html('');
+    }
+}
+
+function nonVerifiedInvoiceEmail(){
+    showPop('SORRY, THIS FUNCTION IS NOT SUPPORTED IN DEMO.');
 }

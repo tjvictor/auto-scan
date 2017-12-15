@@ -2,6 +2,8 @@ package autoscan.model;
 
 public class Invoice {
 
+    private String Id;
+
     //发票代码
     private String invoiceCode;
 
@@ -22,6 +24,8 @@ public class Invoice {
 
     //税额
     private String tax;
+
+    private String status;
 
     public String getInvoiceCode() {
         return invoiceCode;
@@ -77,5 +81,21 @@ public class Invoice {
 
     public void setTax(String tax) {
         this.tax = tax;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
