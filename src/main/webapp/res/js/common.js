@@ -182,6 +182,7 @@ function getPOTicketByBarCodeCallback(data){
         $('#commentsTxt').val(item.comment);
         $('#staffIdTxt').val(item.staffId);
         $('#telNumberTxt').val(item.telNumber);
+        $('#codeBarImg').barcode(item.barCode, "code39",{barWidth:2, barHeight:30});
 
         $('#submitDate').text('');
         $('#verifiedDate').text('');
