@@ -29,6 +29,10 @@ function callAjax(url, iTarget, iCallBack, iCallBackParam, iPost, iParams, iLoad
     });
 }
 
+function loadPage(url){
+    $('#mainDiv').load(url);
+}
+
 function textOnchange() {
 
     //01,04,1200164320,02388138,224.27,20170430,72421672501935626208,3C4C,
@@ -146,7 +150,8 @@ function loginCallback(data){
         var user = {
             "id" : data.callBackData.id,
             "bankId" : data.callBackData.bankId,
-            "roleId" : data.callBackData.roleId,
+            "name" : data.callBackData.name,
+            "roleId" : data.callBackData.role,
             "tel" : data.callBackData.telNumber,
         }
         Cookies.set("user", user, { expires: 1 });
@@ -154,7 +159,70 @@ function loginCallback(data){
     }else{
         $('#errorShow').text(data.prompt);
     }
+}
 
+function logout(){
+    Cookies.remove("user");
+    window.location = '/login.html';
+}
+
+function initialPo(){
+    var user;
+    if(Cookies.get("user"))
+        user = jQuery.parseJSON(Cookies.get("user"));
+    $('#staffIdTxt').val(user.bankId);
+    $('#telNumberTxt').val(user.tel);
+    callAjax('/invoiceService/getBarCodeString', '', 'getBarCodeStringCallback', '', '', '', '');
+}
+
+function getBarCodeStringCallback(data){
+    if(data.status == "ok") {
+        $('#codeBarImg').barcode(data.callBackData, "code39",{barWidth:2, barHeight:30});
+        $('#barCodeValueTxt').val(data.callBackData);
+    }
+}
+
+function insertPoTicket(){
+    var vendorId = $('#vendorIdTxt').val();
+    var claimCurrency = $('#claimCurrencyTxt').val();
+    var claimAmount = $('#claimAmountTxt').val();
+    var bu = $('#buTxt').val();
+    var poNumber = $('#poNumberTxt').val();
+    var poReceivedAmount = $('#poReceivedAmountTxt').val();
+    var comments = $('#commentsTxt').val();
+    var barCode = $('#barCodeValueTxt').val();
+    var staffId = $('#staffIdTxt').val();
+    var telNumber = $('#telNumberTxt').val();
+    if(vendorId == '' || claimCurrency == '' || claimAmount == '' ||
+        bu == '' || poNumber == '' || poReceivedAmount == '' ||
+        comments == '' || barCode == ''){
+            showPop('PLEASE FILL IN ALL THE INFORMATION.');
+            return;
+        }
+
+    var postValue = {
+        "barCode": barCode,
+        "vendorId": vendorId,
+        "claimCurrency": claimCurrency,
+        "claimAmount": claimAmount,
+        "bu": bu,
+        "poNumber": poNumber,
+        "poReceivedAmount": poReceivedAmount,
+        "comment": comments,
+        "staffId": staffId,
+        "telNumber": telNumber,
+    };
+
+    callAjax('/invoiceService/insertPoTicket', '', 'insertPoTicketCallback', '', 'POST', postValue, '');
+}
+
+function insertPoTicketCallback(data){
+    if(data.status == "ok") {
+        showPop(data.prompt);
+        $('#submitBtn').css('background-color','buttonface');
+        $('#submitBtn').css('color','graytext');
+        $('#submitBtn').attr('disabled','disabled');
+    }
 }
 
 function searchPOTicket(){
@@ -183,6 +251,9 @@ function getPOTicketByBarCodeCallback(data){
         $('#staffIdTxt').val(item.staffId);
         $('#telNumberTxt').val(item.telNumber);
         $('#codeBarImg').barcode(item.barCode, "code39",{barWidth:2, barHeight:30});
+
+        if($("#invoiceCode")[0])
+            $("#invoiceCode")[0].focus()
 
         $('#submitDate').text('');
         $('#verifiedDate').text('');

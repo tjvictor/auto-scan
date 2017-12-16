@@ -27,6 +27,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -162,18 +163,30 @@ public class invoiceService {
         }
     }
 
+    @RequestMapping(value = "/getBarCodeString", method = RequestMethod.GET)
+    public ResponseEntity getBarCodeString() {
+
+        try {
+
+            String msg = barCodeBiz.generateCNSString();
+            return new ResponseEntity("ok", "GENERATE BARCODE STRING SUCCESSFULLY", msg);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return new ResponseEntity("error", "SYSTEM ERROR, PLEASE CONTACT ADMINISTRATOR");
+        }
+    }
+
     @RequestMapping(value = "/insertPoTicket", method = RequestMethod.POST)
-    public ResponseEntity insertPoTicket(@FormParam("id") String id, @FormParam("vendorId") String vendorId,
+    public ResponseEntity insertPoTicket(@FormParam("barCode") String barCode, @FormParam("vendorId") String vendorId,
                                          @FormParam("claimCurrency") String claimCurrency, @FormParam("claimAmount") String claimAmount,
                                          @FormParam("bu") String bu, @FormParam("poNumber") String poNumber,
                                          @FormParam("poReceivedAmount") String poReceivedAmount, @FormParam("comment") String comment,
-                                         @FormParam("staffId") String staffId, @FormParam("telNumber") String telNumber,
-                                         @FormParam("barCode") String barCode) {
+                                         @FormParam("staffId") String staffId, @FormParam("telNumber") String telNumber) {
 
         try {
             PoTicket item = new PoTicket();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            item.setId(id);
+            item.setId(UUID.randomUUID().toString());
             item.setVendorId(vendorId);
             item.setClaimCurrency(claimCurrency);
             item.setClaimAmount(claimAmount);
@@ -189,7 +202,7 @@ public class invoiceService {
 
             ticketDao.insertPoTicket(item);
 
-            return new ResponseEntity("ok", "INSERT SUCCESSFULLY", null);
+            return new ResponseEntity("ok", "SUBMIT SUCCESSFULLY", null);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new ResponseEntity("error", "SYSTEM ERROR, PLEASE CONTACT ADMINISTRATOR");

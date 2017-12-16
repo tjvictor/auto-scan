@@ -8,12 +8,12 @@
             margin: 0;
             padding: 0;
         }
-        .nav{ width:100% }
-        .nav ul { width:100%;  list-style:none; }
+        .nav{ width:100% ; position:relative;  }
+        .nav ul { width:100%;  list-style:none;  }
         .nav ul li { float: left; width: 50%; height:40px; line-height:40px; color:white; background-color: #56A36C; text-align:center; vertical-align:middle; cursor:pointer; }
         .nav ul li:hover { background-color: #5E8579; }
 
-        .nav ul li ul {  display:none; }
+        .nav ul li ul {  display:block; }
         .nav ul li:hover ul { display: block;}
         .nav ul li ul li { float:none; width:100%; border-top: 1px dashed #5ED5D1; }
     </style>
@@ -23,13 +23,13 @@
         <ul>
             <li class="requester" ><span>REQUESTER</span>
                 <ul>
-                    <li>
+                    <li style="z-index:100">
                         <span>RAISE PO TICKET</span>
                     </li>
-                    <li>
+                    <li style="z-index:100">
                         <span>RAISE NON-PO TICKET</span>
                     </li>
-                    <li>
+                    <li style="z-index:100">
                         <span>SEARCH TICKET</span>
                     </li>
                 </ul>
@@ -52,6 +52,89 @@
     </div>
 
     <div style="clear:both"></div>
-    <div style="width:100%; height:200px; background-color:#7E884F"></div>
+    <div>
+        <input type="button" value="SUBMIT" id="submitBtn" style="width:80px;height: 25px;background-color: #199457;color: #E9F01D;border-radius:10px;border: 1px solid #ccc;cursor:pointer;" onclick="insertPoTicket()">
+    </div>
+
+    <div style="width:100%;height:auto;border-bottom: 2px solid black;margin-top:10px;"></div>
+    <div style="width:100%;height:auto;background-color:white;margin-top:20px;padding:20px;width:1000px;">
+        <img src="../res/img/ticket_title.png" style="max-width:100%">
+        <div>
+            <div class="left" style="width:50%"><span style="font-size:26px;font-weight:bold;">Expense Reimbursement Form-PO</span></div>
+            <div class="left" style="width:50%">
+                <div id="codeBarImg">
+
+                </div>
+                <input id="barCodeValueTxt" style="display:none;" type="text">
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div style="margin-top: 25px;line-height:30px;">
+            <div class="left"><span style="font-size:14px;font-weight:bold;">Vendor ID</span></div>
+            <div class="left"><input type="text" id="vendorIdTxt" style="width:100px;margin-left:50px;"></div>
+            <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Claim Currency</span></div>
+            <div class="left"><input type="text"id="claimCurrencyTxt" style="width:50px;margin-left:50px;"></div>
+            <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Claim Amount</span></div>
+            <div class="left"><input type="text"id="claimAmountTxt" style="width:100px;margin-left:50px;"></div>
+            <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">BU</span></div>
+            <div class="left"><input type="text"id="buTxt" style="width:75px;margin-left:50px;"></div>
+        </div>
+        <div class="clear"></div>
+        <div style="margin-top: 25px;line-height:30px;">
+            <div class="left"><span style="font-size:14px;font-weight:bold;">PO Number</span></div>
+            <div class="left"><input type="text"id="poNumberTxt" style="width:100px;margin-left:40px;"></div>
+            <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">PO Received Amount</span></div>
+            <div class="left"><input type="text"id="poReceivedAmountTxt" style="width:50px;margin-left:20px;"></div>
+            <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Comments*</span></div>
+            <div class="left"><input type="text"id="commentsTxt" style="width:300px;margin-left:65px;"></div>
+        </div>
+        <div class="clear"></div>
+        <div style="margin-top: 25px;line-height:30px;">
+            <div class="left" style="width:60%">
+                <div><span style="font-size:14px;font-weight:bold;">Contact Information </span></div>
+                <div class="left"><span style="font-size:14px;font-weight:bold;">Staff ID</span></div>
+                <div class="left"><input type="text"id="staffIdTxt" style="width:100px;margin-left:65px;" readonly></div>
+                <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Tel Number</span></div>
+                <div class="left"><input type="text"id="telNumberTxt" style="width:100px;margin-left:40px;" readonly></div>
+            </div>
+            <div class="left" style="width:40%">
+                <p style="font-size:12px;font-weight:bold;">*if PO received amount not match invoice/claim amount, </p>
+                <p style="font-size:12px;font-weight:bold;">please clarify which amount should be the payment amount</p>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div style="margin-top: 15px;line-height:30px;"><span style="font-size:14px;font-weight:bold;">Note:</span></div>
+        <div style="width:100%">
+            <p style="font-size:14px;">-All Fapiao/invoices should be properly stuck, one by one, on plain A4 paper orderly, with  no overlay, and no enfoldment. Do not exceed the range of the A4 paper as well. The stick on both sides of the A4 paper is not allowed, please stick the Fapiao/invoices on only one side of the paper.  The A4 paper used to stick the Fapiao/invoices should be kept clean without any other information.
+                -Since the tax Fapiao/invoices are usually quite thin, you are required to use liquid glue or scotch tape (preferred) to carefully stick the four margins of the Fapiao/invoice on the A4 paper firmly, in case the Fapiao/invoices would be fallen off or be destroyed during the scanning process. Please do not use solid glue, since from experience, Fapiao/invoices could not be stuck firmly and are easily fallen off. Besides, the stapling of the A4 papers with Fapioa/invoices is not allowed; because the damage caused by removed the staple would cause paper jam during the paper scanning process.
+                -Please use Paper Clip or Foldback Clip to gather multiple papers of the claim form and Fapiao/invoices, and meanwhile avoiding the rolling edge.
+                -Please keep the sequence of the attachments as Fapiao/invoices, then contract or payment note, and then other documents (if any).
+
+                发票必须整齐地一张一张粘贴在A4纸上，多张发票不可以互相重叠，也不可以折叠，且不得超过A4纸的范围；由于正规发票通常纸张较薄，请使用液体胶水或透明胶带将发票四边粘牢在A4纸上，以免其在扫描过程中发票脱落损伤（根据经验，固体胶水粘性不够经常会使发票脱落）；另请勿使用订书机，由于发票需要逐张扫描，起订的痕迹会引起卡纸，从而损伤发票;如您提交的一份申请表的页数超过一页，请用回形针或长尾夹夹住纸张，且纸张不能有卷边或翘起。文件的装订顺序依次是发票, 合同或报价单, 其他文件（如有）。
+            </p>
+            <p style="font-size:14px;margin-top:10px;">
+                By submitting this claim form, I confirm that I identified the invoice via local tax bureau’s  website (the link can be found in page http://www.chinatax.gov.cn/n8136506/index.html), or call local tax bureau hotline (district code+12366) , the invoice I attached is true and proper for claim.
+                本人确认该申请单所附发票已经通过当地税务局网站或者热线电话确认为真实有效的可以报销的发票
+            </p>
+            <p style="font-size:14px;margin-top:10px;">
+                Note: You can find the "Q&A for Fapiao Checking notices" on iconnect (China > Other Functions > AP related > Q&A for Fapiao Checking 发票查验小贴士)
+                注：你可以在公司内网上找到 发票查验小贴士(China > Other Functions > AP related > Q&A for Fapiao Checking 发票查验小贴士)
+            </p>
+        </div>
+        <div style="margin-top:10px;">
+            <div class="right" style="width:200px; border: 1px solid black;height:30px;margin-left:30px;">
+
+            </div>
+            <div class="right" >
+                <p style="font-size:14px;">申请人（请签字）：</p>
+                <p style="font-size:14px;">Claimant (please sign here)</p>
+            </div>
+
+        </div>
+        <div class="clear"></div>
+        <div style="width:100%;height:auto;border-bottom: 2px solid black;">
+            <span style="font-size:14px;font-weight:bold;">Please stick Fapiao/invoice in below area:</span>
+        </div>
+    </div>
 </body>
 </html>

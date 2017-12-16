@@ -21,11 +21,13 @@
 <body style="width:1000px; margin:100px auto;background-color:#F2EFE6;">
 
 <script>
-    $(function () { $('#codeBarImg').barcode("CHA2258001", "code39",{barWidth:2, barHeight:30}); });
+    $(function () {
+        initialPo();
+    });
 </script>
 
 <div>
-    <input type="button" value="SUBMIT" id="submitBtn" style="width:80px;border-radius:10px;cursor:pointer;">
+    <input type="button" value="SUBMIT" id="submitBtn" style="width:80px;height: 25px;background-color: #199457;color: #E9F01D;border-radius:10px;border: 1px solid #ccc;cursor:pointer;" onclick="insertPoTicket()">
 </div>
 
 <div style="width:100%;height:auto;border-bottom: 2px solid black;margin-top:10px;"></div>
@@ -34,7 +36,10 @@
     <div>
         <div class="left" style="width:50%"><span style="font-size:26px;font-weight:bold;">Expense Reimbursement Form-PO</span></div>
         <div class="left" style="width:50%">
-            <div id="codeBarImg" ></div>
+            <div id="codeBarImg">
+
+            </div>
+            <input id="barCodeValueTxt" style="display:none;" type="text">
         </div>
     </div>
     <div class="clear"></div>
@@ -62,9 +67,9 @@
         <div class="left" style="width:60%">
             <div><span style="font-size:14px;font-weight:bold;">Contact Information </span></div>
             <div class="left"><span style="font-size:14px;font-weight:bold;">Staff ID</span></div>
-            <div class="left"><input type="text"id="staffIdTxt" style="width:100px;margin-left:65px;"></div>
+            <div class="left"><input type="text"id="staffIdTxt" style="width:100px;margin-left:65px;" readonly></div>
             <div class="left"><span style="font-size:14px;font-weight:bold;margin-left:50px;">Tel Number</span></div>
-            <div class="left"><input type="text"id="telNumberTxt" style="width:100px;margin-left:40px;"></div>
+            <div class="left"><input type="text"id="telNumberTxt" style="width:100px;margin-left:40px;" readonly></div>
         </div>
         <div class="left" style="width:40%">
             <p style="font-size:12px;font-weight:bold;">*if PO received amount not match invoice/claim amount, </p>

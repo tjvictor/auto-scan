@@ -21,7 +21,7 @@ public class StaffDaoImp implements StaffDao{
     public Staff login(String bankId, String password, String role) throws SQLException {
         Staff item = new Staff();
 
-        String selectSql = String.format("SELECT a.Id, a.BankId, a.Password, a.Role, a.TelNumber FROM Staff a where a.BankId = '%s' and a.Password = '%s' and a.Role = '%s'", bankId, password, role);
+        String selectSql = String.format("SELECT a.Id, a.BankId, a.Name, a.Password, a.Role, a.TelNumber FROM Staff a where a.BankId = '%s' and a.Password = '%s' and a.Role = '%s'", bankId, password, role);
 
         try (Connection connection = DriverManager.getConnection(dbConnectString)) {
             try (Statement stmt = connection.createStatement()) {
@@ -30,6 +30,7 @@ public class StaffDaoImp implements StaffDao{
                         int i = 1;
                         item.setId(rs.getString(i++));
                         item.setBankId(rs.getString(i++));
+                        item.setName(rs.getString(i++));
                         item.setPassword(rs.getString(i++));
                         item.setRole(rs.getString(i++));
                         item.setTelNumber(rs.getString(i++));
