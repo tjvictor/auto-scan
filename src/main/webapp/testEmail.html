@@ -5,100 +5,86 @@
     <title>Title</title>
     <script type="text/javascript" src="res/js/jquery-1.11.2.js"></script>
     <script type="text/javascript" src="res/js/common.js"></script>
+    <style>
+        .move1 {
+            -webkit-animation: move-100 1s linear 0s;
+        }
+        .move2 {
+            -webkit-animation: move-200 1s linear 0s;
+        }
+        .move3 {
+            -webkit-animation: move-300 1s linear 0s;
+        }
+        .move4 {
+            -webkit-animation: move-0 1s linear 0s;
+        }
+
+        @-webkit-keyframes move-100 {
+            0% {
+                left: 0px;
+            }
+
+            100% {
+                left: -100%;
+            }
+        }
+        @-webkit-keyframes move-200 {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: -200%;
+            }
+        }
+        @-webkit-keyframes move-300 {
+            0% {
+                left: -200%;
+            }
+
+            100% {
+                left: -300%;
+            }
+        }
+        @-webkit-keyframes move-0 {
+            0% {
+                left: -300%;
+            }
+
+            100% {
+                left: 0%;
+            }
+        }
+    </style>
     <script>
-        function testEmail(){
-            var postValue = {
-                "codeList": 'asdfa,asdfasd,asdfadsa,asdfasdfa,',
-            };
+        $(function (){
+            window.setInterval(move, 3000);
+        });
 
-            callAjax('/invoiceService/sendEmail', '', '', '', 'POST', postValue, '');
-        }
 
-        function testCodeBar(){
-            callAjax('/invoiceService/getBarCode', '','getBarCodeCallBack', '', '', '', '', '');
-        }
-        function getBarCodeCallBack(data){
-            if (data.status == 'ok'){
-                var item = data.callBackData;
-                $('#codebar').attr('src', item.imageUrl);
+        var leftPosition=0;
+        function move(){
+
+            switch(leftPosition){
+
+                case 0 : leftPosition = 100; $('#moveDiv').animate({left:"-100%"}, 1000, 'linear', null); break;
+                case 100 : leftPosition = 200; $('#moveDiv').animate({left:"-200%"}, 1000, 'linear', null); break;
+                case 200 : leftPosition = 0; $('#moveDiv').animate({left:"0%"}, 500, 'linear', null); break;
+                default: break;
+
             }
         }
 
-        function strSplit(){
-            var str = $('#ggggg').val().split(",").length;
-            var str1 = $('#ggggg').val().split(",", -1).length;
 
-            alert(str);
-            alert(str1);
-        }
     </script>
-    <style>
-        ul{
-            list-style:none
-        }
-
-        .top:hover .second{
-            display:inline-block;
-            background-color:black;
-        }
-    </style>
 </head>
 <body>
-<input onclick="testEmail()" type="button" value="test email">
-
-<div>
-    <input onclick="testCodeBar()" type="button" value="test code bar">
-    <img id="codebar" style="width:200px;height:100px;">
-</div>
-
-<div style="margin:20px;"></div>
-
-<div style="width:1000px; margin:0 auto">
-    <ul style="width:100%;">
-        <li class="top" style="float: left;width:20%;background-color:grey;color:white;">
-            <div>level one first</div>
-            <ul class="second" style="">
-                <li style="float: left;background-color:#1E90FF;color:white;">1</li>
-                <li style="float: left;background-color:#1E90FF;color:white;">2</li>
-            </ul>
-        </li>
-        <li class="top" style="float: left;width:20%;background-color:grey;color:white;">
-            <div>level one second</div>
-            <ul class="second" style="">
-                <li style="float: left;background-color:#1E90FF;color:white;">3</li>
-                <li style="float: left;background-color:#1E90FF;color:white;">4</li>
-                <li style="float: left;background-color:#1E90FF;color:white;">5</li>
-            </ul>
-        </li>
-
-    </ul>
-</div>
-
-<div>
-    <input id="ggggg" value="gggggg" onchange="strSplit()">
-</div>
-
-
-<a class="aaa" href="#">hover
-    <div class="div2" style="">
-
+    <div style="width:700px;height:306px;position:relative;overflow:hidden;">
+        <div id="moveDiv" style="width:1000%;height:100%;position:relative;">
+            <a style="width:10%;height:100%;float:left;background-image: url('res/img/image-slider-1.jpg');background-position: center center;"></a>
+            <a style="width:10%;height:100%;float:left;background-image: url('res/img/image-slider-2.jpg');background-position: center center;"></a>
+            <a style="width:10%;height:100%;float:left;background-image: url('res/img/image-slider-3.jpg');background-position: center center;"></a>
+        </div>
     </div>
-</a>
-<style>
-  .aaa:hover .div2{
-    display: block;
-    animation: 0.5s div2 ease-in forwards;
-
-  }
-  @keyframes div2{
-    0%{height: 10px; }
-    100%{height: 200px; }
-  }
-  .div2{
-    width: 200px;
-    background-color: red;
-
-  }
-</style>
 </body>
 </html>
