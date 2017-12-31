@@ -1,0 +1,14 @@
+Dear everyone,
+    Welcome to join this session, it is my honor to present our project here. I come from DevFins team, my project is to focus on resolving invoice verification and vendor payment process for SCB Accounting operation department.
+    Our users are from AO department, The problem what they are facing is so heave manual operation, communicate with vendor, no unique e-form template and risk of manual mistake.
+    So far AO staff receives paper invoice from requestor who needs to reimburse, and then Ao staff will manually input invoice information into system and verify its correctness. For ineffective invoice, AO staff needs to reject this request and communicate to related stakeholder by email. For effective invoice, AO staff will copy invoice manually and prepare next payment process.
+    During the whole process, AO staff is working manually within low efficiency and always facing risk of manual mistake.
+    In our new design, we will provide a new payment platform to resolve these problems. Our target is to make everything automatically, improve efficiency and reduce manual risk to Zero.
+    In future, the requestor will use website or mobile app to submit his/her reimbursement within the electronic invoice. AO staff doesn't need to manually input invoice information, because in China, every invoice has an unique QR code and it saves all of this invoice information. We will provide a scanner to connect to our system directly, so AO staff can use this scanner to scan this invoice QR Code, and then the invoice information will auto-import our system and auto-match with China Tax Golden Source to do invoice verification. Whatever the invoice is effective or not, the system will trigger email automatically to stakeholder.
+    After apply this new system, we can
+    1. Improve 25 times efficiency. Ao staff needs 25 seconds to input and verify an invoice at least. After using scanner, it will take less than 1 second to complete all processes.
+    2. Reduce manual risk to Zero. After applying this system, there is no manual operation at all, so we can say that's 100% safe.
+    3. Electronization. There is no paper request in new system, every data is changed to electronic form and save into database. So we can save paper cost, print cost as well as time cost.
+    4. Audit. Everything is saving in database, so we can search and check history invoice easily for end of year audit. If it is still paper invoice, it will be a huge job to look for one invoice from thousands of invoices.
+
+    That's all for our project brief. please remember our team name DevFins. It is Development plus Finance, our team target is to make Financial operation Simpler, Faster and Better.
