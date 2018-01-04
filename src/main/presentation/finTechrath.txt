@@ -1,16 +1,25 @@
-Dear everyone
-	Welcome to join this session, it is my honor to present our project here. I come from DevFins team, our project is to focus on resolving invoice verification and vendor payment process for Accounting operation team of GFS China .
-        Currently the big problem what they are facing is so heavy manual operation works, communication with referral stakeholder, no unique e-form application and risk of manual mistake.
-	Current process is that AO staff receives paper invoice from vendor who needs to reimburse, and then  manually input invoice information into register table to track and verify its correctness. 
-        AO staff needs to reject ineffective invoice request and communicate with related stakeholders via email / tel.
-        For effective invoice, AO staff will copy invoice manually and start to next payment process. 
-	During the whole process, AO staff is working manually within low efficiency and always facing risk of manual mistake and information of isolation.
-        Regarding to our designed solution, we provide a payment platform to resolve those problems. Our target is to make each process automatically, improve efficiency and reduce manual risk to zero.
-	In China, each invoice has an unique QR code which includes invoice detail information. We provide a hardware to scan this QR code, so that the invoice information will be imported into system automatically . 
-	In future, the requestor will use website or mobile app to submit reimbursement within the electronic invoice. AO staff can use this scanner to scan this invoice QR Code instead of manual typing, and then the invoice information will auto-import into our system. The system will auto-match with China Tax Golden Source to do invoice verification. Whatever the invoice is effective or not, the system will trigger email automatically to stakeholder.
-	After apply this new system, we can
-	1. Improve 25 multiple efficiency. AO staff needs 25 seconds to input and verify an invoice at least. After using scanner, it will take less than 1 second to complete all processes.
-	2. Reduce manual risk to Zero. After applying this system, there is no manual operation at all, so we can say that's 100% safe.
-	3. Digital and eco-office. There is no paper request in new system, every data is changed to electronic form and save into database. So we can save paper cost, print cost as well as time cost.
-	4. Audit automation. Everything is saving in database, so we can search and check history invoice easily for end of year audit as well as generate accounting report. If it is still using paper invoice, it will be a huge job to look for one invoice from thousands of invoices.
-	That's all for our project brief. please remember our team name DevFins. It is Development plus Finance. Our team target is to make Financial operation Simpler, Faster and Better.
+Hello and Welcome to this session. It is my honor to present our project here. My team is called DevFins and our project is to focuses on resolving invoice verification and vendor payment processing for Accounting Operation team in Global Finance Service China.
+
+Currently the biggest problems they are facing are unnecessarily heavy manual data input and checking tasks, communication with stakeholders, a lack of a unique e-form application and risk of manual mistakes.
+
+The current process is that AO(Acounting Operations), staff receive paper invoices from vendors who need reimbursement, and then manually need to input invoice information into registration tables to track and verify their correctness. 
+
+They then need to reject incorrect invoice requests and communicate with related stakeholders via email or the phone.
+
+For correct invoices, AO staff will copy them manually and start towards the next payment process. 
+
+During the whole process, AO staff are working manually within low efficiency and always facing the risk of manual mistakes and issues with information availability and clarity.
+
+Regarding our designed solution, we provide a payment platform to resolve those problems. Our target is to make each process automatic, improve efficiency and reduce manual risk to zero.
+
+In China, each invoice has an unique QR code which includes invoice detail information. We provide hardware to scan this QR code, so that the invoice information will be imported into system automatically. 
+
+After applying our new process, the requestor will use a website or mobile app to submit their reimbursement request using their electronic device. AO staff can use this scanner to scan their invoice QR Code instead of manually typing it and then the invoice information will auto-import into our system. The system will auto-match with China's Tax Golden Source to do invoice verification. After determining Whether the invoice is effective or not, the system will trigger an email to automatically be sent to the relevant stakeholders.
+	
+After applying this new system, the benifit is 
+	1. Greatly improve efficiency. AO staff need at least 26 seconds to input an invoice at least. After using our 	scanner, it will take less than 1 second to complete all the processes.
+	2. Reduce manual risk to Zero. After applying this system, there is no manual operation at all, so we can say that's 100% 	risk free.
+	3. Digital and eco-office. There is no paper request in our new system. All the data is changed to an electronic form and 	saved into our database so we can save paper costs, printing costs, as well as time costs.
+	4. Audit automation. Everything is saved in a database, so we can search and check the invoice history easily for the end 	of year audit, as well as generate accounting reports. If still using paper invoices, it would be a huge job to look for 	one invoice from thousands that are periodically received.
+
+That's all for our project summary. Please remember our team name - DevFins. It is Development plus Finance. Our team target is to make Financial operation Simpler, Faster and Better and that's exactly what we've done.Thank you.
