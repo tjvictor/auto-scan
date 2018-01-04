@@ -1,6 +1,6 @@
 Hello and Welcome to this session. It is my honor to present our project here. My team is called DevFins and our project is to focuses on resolving invoice verification and vendor payment processing for Accounting Operation team in Global Finance Service China.
 
-Currently the biggest problems they are facing are unnecessarily heavy manual data input and checking tasks, communication with stakeholders, a lack of a unique e-form application and risk of manual mistakes.
+Currently the biggest problems they are facing are massive manual operations, communication with stakeholders, a lack of an unique e-form application and risk of manual mistakes.
 
 The current process is that AO(Acounting Operations), staff receive paper invoices from vendors who need reimbursement, and then manually need to input invoice information into registration tables to track and verify their correctness. 
 
@@ -17,7 +17,7 @@ In China, each invoice has an unique QR code which includes invoice detail infor
 After applying our new process, the requestor will use a website or mobile app to submit their reimbursement request using their electronic device. AO staff can use this scanner to scan their invoice QR Code instead of manually typing it and then the invoice information will auto-import into our system. The system will auto-match with China's Tax Golden Source to do invoice verification. After determining Whether the invoice is effective or not, the system will trigger an email to automatically be sent to the relevant stakeholders.
 	
 After applying this new system, the benifit is 
-	1. Greatly improve efficiency. AO staff need at least 26 seconds to input an invoice at least. After using our 	scanner, it will take less than 1 second to complete all the processes.
+	1. Improve efficiency to 25 times. AO staff need at least 26 seconds to input an invoice at least. After using our 	scanner, it will take less than 1 second to complete all the processes.
 	2. Reduce manual risk to Zero. After applying this system, there is no manual operation at all, so we can say that's 100% 	risk free.
 	3. Digital and eco-office. There is no paper request in our new system. All the data is changed to an electronic form and 	saved into our database so we can save paper costs, printing costs, as well as time costs.
 	4. Audit automation. Everything is saved in a database, so we can search and check the invoice history easily for the end 	of year audit, as well as generate accounting reports. If still using paper invoices, it would be a huge job to look for 	one invoice from thousands that are periodically received.
