@@ -30,7 +30,9 @@ function callAjax(url, iTarget, iCallBack, iCallBackParam, iPost, iParams, iLoad
 }
 
 function loadPage(url){
+    $('.window-page-mask').css('display', 'block');
     $('#mainDiv').load(url);
+    $('.window-page-mask').css('display', 'none');
 }
 
 function textOnchange() {
@@ -46,7 +48,7 @@ function textOnchange() {
         $('#invoiceDate').val(data[5]);
         $('#invoiceAmount').val(data[4]);
 
-        callAjax('/invoiceService/getInvoiceByCode', '', 'getInvoiceByCodeCallback', '', '', 'code=' + $('#invoiceCode').val()+'&number='+$('#invoiceNumber').val(), '');
+        callAjax('/invoiceService/getInvoiceByCode', '', 'getInvoiceByCodeCallback', '', '', 'code=' + $('#invoiceCode').val()+'&number='+$('#invoiceNumber').val(), '.window-page-mask');
     }
 }
 
@@ -172,7 +174,7 @@ function initialPo(){
         user = jQuery.parseJSON(Cookies.get("user"));
     $('#staffIdTxt').val(user.bankId);
     $('#telNumberTxt').val(user.tel);
-    callAjax('/invoiceService/getBarCodeString', '', 'getBarCodeStringCallback', '', '', '', '');
+    callAjax('/invoiceService/getBarCodeString', '', 'getBarCodeStringCallback', '', '', '', '.window-page-mask');
 }
 
 function getBarCodeStringCallback(data){
@@ -213,7 +215,7 @@ function insertPoTicket(){
         "telNumber": telNumber,
     };
 
-    callAjax('/invoiceService/insertPoTicket', '', 'insertPoTicketCallback', '', 'POST', postValue, '');
+    callAjax('/invoiceService/insertPoTicket', '', 'insertPoTicketCallback', '', 'POST', postValue, '.window-page-mask');
 }
 
 function insertPoTicketCallback(data){
@@ -229,7 +231,7 @@ function searchPOTicket(){
     var dataLength = $('#barCodeTxt').val().length;
     if(dataLength == 10){
         var data = $('#barCodeTxt').val();
-        callAjax('/invoiceService/getPOTicketByBarCode', '', 'getPOTicketByBarCodeCallback', '', '', 'barCode=' + data, '');
+        callAjax('/invoiceService/getPOTicketByBarCode', '', 'getPOTicketByBarCodeCallback', '', '', 'barCode=' + data, '.window-page-mask');
     }
 }
 
@@ -314,7 +316,7 @@ function verifyTicket(){
         "invoiceList": invoiceList,
     };
 
-    callAjax('/invoiceService/verifyPOTicket', '', 'verifyPOTicketCallback', '', 'POST', postValue, '');
+    callAjax('/invoiceService/verifyPOTicket', '', 'verifyPOTicketCallback', '', 'POST', postValue, '.window-page-mask');
 }
 
 function verifyPOTicketCallback(data){
@@ -374,7 +376,7 @@ function verifiedInvoiceTab(item){
     $('#nonVerifiedInvoiceDiv').css('display','none');
     $('#historyPackageDiv').css('display','none');
 
-    callAjax('/invoiceService/getInvoiceListByStatus', '', 'getVerifiedInvoiceListCallback', '', '', 'status=1', '');
+    callAjax('/invoiceService/getInvoiceListByStatus', '', 'getVerifiedInvoiceListCallback', '', '', 'status=1', '.window-page-mask');
 }
 function getVerifiedInvoiceListCallback(data){
     $('#verifiedInvoiceContent').html('');
@@ -408,7 +410,7 @@ function nonVerifiedInvoiceTab(item){
     $('#nonVerifiedInvoiceDiv').css('display','block');
     $('#historyPackageDiv').css('display','none');
 
-    callAjax('/invoiceService/getInvoiceListByStatus', '', 'getNonVerifiedInvoiceListCallback', '', '', 'status=0', '');
+    callAjax('/invoiceService/getInvoiceListByStatus', '', 'getNonVerifiedInvoiceListCallback', '', '', 'status=0', '.window-page-mask');
 }
 function getNonVerifiedInvoiceListCallback(data){
     $('#warnedInvoiceContent').html('');
@@ -442,7 +444,7 @@ function historyPackageTab(item){
     $('#nonVerifiedInvoiceDiv').css('display','none');
     $('#historyPackageDiv').css('display','block');
 
-    callAjax('/invoiceService/getInvoicePackage', '', 'getInvoicePackageCallback', '', '', '', '');
+    callAjax('/invoiceService/getInvoicePackage', '', 'getInvoicePackageCallback', '', '', '', '.window-page-mask');
 }
 function getInvoicePackageCallback(data){
     $('#packageContent').html('');
@@ -463,7 +465,7 @@ function getInvoicePackageCallback(data){
 }
 
 function getInvoiceByPackageId(packageId){
-    callAjax('/invoiceService/getInvoiceByPackageId', '', 'getInvoiceByPackageIdCallback', '', '', 'packageId='+packageId, '');
+    callAjax('/invoiceService/getInvoiceByPackageId', '', 'getInvoiceByPackageIdCallback', '', '', 'packageId='+packageId, '.window-page-mask');
 }
 
 function getInvoiceByPackageIdCallback(data){
@@ -493,7 +495,7 @@ function packageVerifiedInvoice(data){
     var postValue = {
        "invoiceList" : $('#verifiedInvoiceList').val(),
     };
-    callAjax('/invoiceService/packageVerifiedInvoice', '', 'packageVerifiedInvoiceCallback', '', 'POST', postValue, '');
+    callAjax('/invoiceService/packageVerifiedInvoice', '', 'packageVerifiedInvoiceCallback', '', 'POST', postValue, '.window-page-mask');
 }
 
 function packageVerifiedInvoiceCallback(data){

@@ -69,7 +69,25 @@
                     </li>
                 </ul>
             </li>
-            <li>HELP</li>
+            <li><span>HELP</span>
+                <ul>
+                    <li onclick="loadPage('view/help/how_to_login.html')">
+                        <span>HOW TO LOGIN</span>
+                    </li>
+                    <li onclick="loadPage('view/help/how_to_submit_po.html')">
+                        <span>HOW TO RAISE PO TICKET</span>
+                    </li>
+                    <li onclick="loadPage('view/help/how_to_search_po.html')">
+                        <span>HOW TO SEARCH PO TICKET</span>
+                    </li>
+                    <li onclick="loadPage('view/help/how_to_check_po.html')">
+                        <span>HOW TO CHECK PO TICKET</span>
+                    </li>
+                    <li onclick="loadPage('view/help/how_to_check_history.html')">
+                        <span>HOW TO PACKAGE & CHECK HISTORY</span>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>
@@ -85,8 +103,10 @@
     <div class="animated bounceIn" style="position:fixed;top:20%;text-align:center;vertical-align:middle;left:0;width:100%;z-index:9999;height:100px;line-height:100px;opacity:1;">
         <span id="popReminder" style="position:relative;font-size:24px;font-weight:bold;color:#F5C30F;background-color:black;border-radius:15px;padding:10px;">
         </span>
-
     </div>
 </div>
+
+<div class="window-page-mask"></div>
+<div class="clear"></div>
 </body>
 </html>
